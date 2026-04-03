@@ -6,8 +6,10 @@ import process from "node:process";
 
 import { readJsonFile } from "./fs.mjs";
 import { binaryAvailable, runCommand } from "./process.mjs";
+import { retryWithBackoff, isRateLimitError } from "./retry.mjs";
+import { globalQueue } from "./request-queue.mjs";
 
-const DEFAULT_MODEL = "gemini-2.5-flash";
+const DEFAULT_MODEL = "gemini-3.1-pro-preview";
 const DEFAULT_CONTINUE_PROMPT =
   "Continue from where you left off. Pick the next highest-value step and follow through until the task is resolved.";
 
@@ -54,7 +56,7 @@ export function getSessionRuntimeStatus(env) {
   };
 }
 
-function spawnGemini(cwd, args, options = {}) {
+function spawnGeminiOnce(cwd, args, options = {}) {
   return new Promise((resolve) => {
     const child = nodeSpawn("gemini", args, {
       cwd,
@@ -96,6 +98,26 @@ function spawnGemini(cwd, args, options = {}) {
       });
     }
   });
+}
+
+function spawnGemini(cwd, args, options = {}) {
+  return globalQueue.enqueue(() =>
+    retryWithBackoff(
+      () => spawnGeminiOnce(cwd, args, options),
+      {
+        signal: options.abortSignal,
+        onRetry: (info) => {
+          const label = info.isRateLimit ? "Rate limited" : "Retryable error";
+          const msg = `${label} — retry ${info.attempt}/${info.maxAttempts} in ${Math.round(info.delayMs / 1000)}s`;
+          options.onProgress?.({
+            message: msg,
+            phase: "retrying",
+            stderrMessage: msg
+          });
+        }
+      }
+    )
+  );
 }
 
 export async function runGeminiPrompt(cwd, prompt, options = {}) {
