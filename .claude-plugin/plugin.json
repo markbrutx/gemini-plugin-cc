@@ -1,0 +1,8 @@
+{
+  "name": "gemini",
+  "version": "0.1.0",
+  "description": "Use Gemini from Claude Code for visual analysis, design review, and task delegation.",
+  "author": {
+    "name": "markbrutx"
+  }
+}

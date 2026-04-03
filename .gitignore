@@ -1,0 +1,5 @@
+node_modules/
+.wb/
+*.log
+.DS_Store
+.claude/
