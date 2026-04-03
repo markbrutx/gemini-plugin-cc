@@ -1,4 +1,7 @@
 import { spawn as nodeSpawn } from "node:child_process";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import process from "node:process";
 
 import { readJsonFile } from "./fs.mjs";
@@ -14,6 +17,16 @@ export function getGeminiAvailability(cwd) {
   return binaryAvailable("gemini", ["--version"], { cwd });
 }
 
+function hasOAuthCredentials() {
+  const credsPath = path.join(os.homedir(), ".gemini", "oauth_creds.json");
+  try {
+    const stat = fs.statSync(credsPath);
+    return stat.isFile() && stat.size > 0;
+  } catch {
+    return false;
+  }
+}
+
 export function getGeminiAuthStatus(cwd) {
   const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY ?? null;
   if (apiKey) {
@@ -25,7 +38,11 @@ export function getGeminiAuthStatus(cwd) {
     return { available: false, loggedIn: false, detail: "Gemini CLI not found" };
   }
 
-  return { available: true, loggedIn: false, detail: "No GEMINI_API_KEY set. Run `gemini auth login` or export GEMINI_API_KEY." };
+  if (hasOAuthCredentials()) {
+    return { available: true, loggedIn: true, detail: "OAuth credentials found" };
+  }
+
+  return { available: true, loggedIn: false, detail: "No auth found. Run `gemini auth login` or export GEMINI_API_KEY." };
 }
 
 export function getSessionRuntimeStatus(env) {
