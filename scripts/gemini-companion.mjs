@@ -65,7 +65,7 @@ const DEFAULT_STATUS_WAIT_TIMEOUT_MS = 240000;
 const DEFAULT_STATUS_POLL_INTERVAL_MS = 2000;
 const MODEL_ALIASES = new Map([
   ["flash", "gemini-3-flash-preview"],
-  ["pro", "gemini-3.1-pro-preview"],
+  ["pro", "gemini-3-pro-preview"],
   ["2.5-flash", "gemini-2.5-flash"],
   ["2.5-pro", "gemini-2.5-pro"]
 ]);

@@ -25,6 +25,6 @@ Operating rules:
 - Return the Gemini companion stdout verbatim to the user.
 - Do not paraphrase, summarize, rewrite, or add commentary before or after it.
 - Do not ask the subagent to inspect files, monitor progress, poll `/gemini:status`, fetch `/gemini:result`, call `/gemini:cancel`, summarize output, or do follow-up work of its own.
-- Leave model unset unless the user explicitly asks for one. Aliases: `flash` = `gemini-2.5-flash`, `pro` = `gemini-2.5-pro`.
+- Leave model unset unless the user explicitly asks for one. Aliases: `flash` = `gemini-3-flash-preview`, `pro` = `gemini-3-pro-preview`.
 - Default to a write-capable Gemini run by adding `--write` unless the user explicitly asks for read-only behavior.
 - If the user did not supply a request, ask what Gemini should investigate or fix.

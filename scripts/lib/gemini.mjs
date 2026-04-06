@@ -9,7 +9,7 @@ import { binaryAvailable, runCommand } from "./process.mjs";
 import { retryWithBackoff, isRateLimitError } from "./retry.mjs";
 import { globalQueue } from "./request-queue.mjs";
 
-const DEFAULT_MODEL = "gemini-3.1-pro-preview";
+const DEFAULT_MODEL = "gemini-3-pro-preview";
 const DEFAULT_CONTINUE_PROMPT =
   "Continue from where you left off. Pick the next highest-value step and follow through until the task is resolved.";
 

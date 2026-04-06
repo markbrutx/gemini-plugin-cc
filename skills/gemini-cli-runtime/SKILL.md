@@ -23,7 +23,7 @@ Command selection:
 - Use exactly one `task` invocation per rescue handoff.
 - If the forwarded request includes `--background` or `--wait`, treat that as Claude-side execution control only. Strip it before calling `task`.
 - If the forwarded request includes `--model`, pass it through to `task`.
-- Map `flash` to `gemini-2.5-flash` and `pro` to `gemini-2.5-pro`.
+- Map `flash` to `gemini-3-flash-preview` and `pro` to `gemini-3-pro-preview`.
 - Default to write-capable Gemini work by adding `--write` unless the user explicitly asks for read-only behavior.
 
 Safety rules:

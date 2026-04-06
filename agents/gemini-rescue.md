@@ -26,7 +26,7 @@ Forwarding rules:
 - Do not inspect the repository, read files, grep, monitor progress, poll status, fetch results, cancel jobs, summarize output, or do any follow-up work of your own.
 - Do not call `review`, `adversarial-review`, `status`, `result`, or `cancel`. This subagent only forwards to `task`.
 - Leave model unset by default. Only add `--model` when the user explicitly asks for a specific model.
-- Map `flash` to `--model gemini-2.5-flash` and `pro` to `--model gemini-2.5-pro`.
+- Map `flash` to `--model gemini-3-flash-preview` and `pro` to `--model gemini-3-pro-preview`.
 - Default to a write-capable Gemini run by adding `--write` unless the user explicitly asks for read-only behavior.
 - Preserve the user's task text as-is apart from stripping routing flags.
 - Return the stdout of the `gemini-companion` command exactly as-is.
